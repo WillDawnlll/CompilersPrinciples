@@ -14,7 +14,17 @@ OutStream = []
 
 #判断是否为关键字，再一个循环，判断完此单词，
 def IfKeyword(Char):
-    pass
+    for w in KeywordList:
+        for r in w:
+            if r == w[-1]:
+                Word = w
+                return True
+            else:
+                Word += Char
+                Char = SourceCodeFile.read(1)
+    return False
+
+
 
 #取一个字符，判断属2/3否,判断0否,判断1否(根据表1构建最小DFA，入栈，),str和类型构成2元组，插入list，位置为循环计数
 SourceCodeFile = open('./SourceCode','r')
