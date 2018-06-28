@@ -1,2 +1,8 @@
-if 1==1||2==2:
+b = ['a','b']
+c = 'q'
+a = ''.join(b)
+a += c
+print(a)
+if a == []:
     print(1)
+print(a)
