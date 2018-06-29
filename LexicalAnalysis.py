@@ -14,17 +14,17 @@ OutStream = []
 
 
 # 判断是否为关键字，再一个循环，判断完此单词，
-def IfKeyword(Char):
+def if_keyword(char):
     for w in KeywordList:
         for r in w:
-            if Char == r:
+            if char == r:
                 if r == w[-1]:
                     global Word
                     Word = w
                     return True
                 else:
-                    Word += Char
-                    Char: str = SourceCodeFile.read(1)
+                    Word += char
+                    char = SourceCodeFile.read(1)
     return False
 
 
@@ -73,7 +73,7 @@ while True:
             sort = 5
         continue
 
-    if IfKeyword(Char):
+    if if_keyword(Char):
         sort = 1
         continue
     else:
