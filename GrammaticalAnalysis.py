@@ -1,10 +1,8 @@
-#str转list测试
-a=open('./OutFile','r')
+# coding=utf-8
 
-c=a.readlines()
+from LexicalAnalysis import WordStream
 
-b=c.strip('[').strip(']').split(',')
+print(WordStream)
 
-print(b)
-
-a.close()
+for a in WordStream:
+    print(type(a))

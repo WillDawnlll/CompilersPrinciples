@@ -1,90 +1,177 @@
 # coding=utf-8
 # 5类词
 # 定义关键字表:1
-KeywordList = ['if', 'int', 'then', 'do', 'print', 'return']
+KeywordList = ['if', 'int', 'then', 'print', 'return']
 # 定义分界符表:2
 DelimiterList = [';']
 # 定义运算符表(算术运算符和关系运算符):3
 OperatorList = ['=', '-', '+', '*', '/', '>', '<']
 # 常量5,标识符4，无类别为0
+# 省略符号表
+OmitList = [' ', '\n']
 # 单词栈
 Word = ''
 # 输出流
 WordStream = []
 
 
+def next_char():
+    global Word, Char
+    Word += Char
+    Char = SourceCodeFile.read(1)
+    return Char
+
+#dfa
+def keyword():
+    global Char, Word
+    if Char == 'i':
+        return i()
+    elif Char == 't':
+        return t()
+    elif Char == 'p':
+        return p()
+    elif Char == 'r':
+        return r()
+    else:
+        next_char()
+        return False
+
+
+def i():
+    char = next_char()
+    if char == 'n':
+        return n()
+    elif char == 'f':
+        return f()
+    elif char == ' ':
+        return True
+    else:
+        return False
+
+
+def t():
+    char = next_char()
+    if char == 'h':
+        return h()
+    elif char == 'u':
+        return u()
+    elif char == ' ':
+        return True
+    else:
+        return False
+
+
+def p():
+    char = next_char()
+    if char == 'r':
+        return r()
+    else:
+        return False
+
+
+def r():
+    char = next_char()
+    if char == 'e':
+        return e()
+    elif char == 'i':
+        return i()
+    else:
+        return False
+
+
+def n():
+    char = next_char()
+    if char == 't':
+        return t()
+    elif char == ' ':
+        return True
+    else:
+        return False
+
+
+def h():
+    char = next_char()
+    if char == 'e':
+        return e()
+    else:
+        return False
+
+
+def u():
+    char = next_char()
+    if char == 'r':
+        return r()
+    else:
+        return False
+
+
+def e():
+    char = next_char()
+    if char == 'n':
+        return n()
+    else:
+        return False
+
+
+def f():
+    char = next_char()
+    if char == ' ':
+        return True
+    else:
+        return False
+
+#有错，改为dfa
 # 判断是否为关键字，再一个循环，判断完此单词，
-def if_keyword(char):
-    for w in KeywordList:
-        for r in w:
-            if char == r:
-                if r == w[-1]:
-                    global Word
-                    Word = w
-                    return True
-                else:
-                    Word += char
-                    char = SourceCodeFile.read(1)
-    return False
+# def if_keyword(char):
+
+# id = ''
+# for w in KeywordList:
+#     for r in w:
+#         if char == r:
+#             if r == w[-1]:
+#                 global Word
+#                 Word = w
+#                 return True
+#             else:
+#                 id += char
+#                 char = SourceCodeFile.read(1)
+# Word = id
+# return False
 
 
-# 取一个字符，判断属2/3否,判断5否,判断1否(根据表1构建最小DFA，入栈，),str和类型构成2元组，插入list，位置为循环计数
 SourceCodeFile = open('./SourceCode', 'r')
-num = True
 sort = 0
+Char = SourceCodeFile.read(1)
 
 while True:
-    Char = SourceCodeFile.read(1)
     # 文件结束
     if Char == '':
         SourceCodeFile.close()
         break
 
-    # 重写，每次字符都入Word栈,循环开始
-
-    # 重写，检测到分隔符，根据sort（栈中种类）栈中元素加进OutStream,清栈,
-    # 运算式子之间，加空格: a = 1 + 1
-    if Char == (' ' or '\n'):
+    if Char in OmitList:
         WordStream.append((Word, sort))
         Word = ''
+        Char = SourceCodeFile.read(1)
         continue
 
-    Word += Char
-
-    # 种类检测，只设置sort，
+    # 种类检测，设置sort
     if Char in DelimiterList:
         sort = 2
-        continue
-
-    if Char in OperatorList:
+        next_char()
+    elif Char in OperatorList:
         sort = 3
-        continue
-
-    # num==1:上一个char是数字
-
-    #    if num == True and Char.isdigit() == False:
-    #        OutStream.append((Word.pop(),0))
-    #        num = False
-
-    # 数字后是字母，字母后是数字怎么解决？
-    if Char.isdigit():
-        if num:
-            num = True
-            sort = 5
-        continue
-
-    if if_keyword(Char):
+        next_char()
+    elif Char.isdigit():
+        sort = 5
+        next_char()
+    elif keyword():
         sort = 1
-        continue
     else:
         sort = 4
-        continue
 
 SourceCodeFile.close()
 
 OutFile = open('./OutFile', 'w')
-# OutStream   list转换str  函数
-
 OutFile.write(str(WordStream))
-
 OutFile.close()
