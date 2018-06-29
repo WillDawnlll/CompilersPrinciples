@@ -1,4 +1,5 @@
-# 5类词：
+# coding=utf-8
+# 5类词
 #定义关键字表:1
 KeywordList = ['if','int','then','do','print','return']
 #定义分界符表:2
