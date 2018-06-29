@@ -1,11 +1,11 @@
-#5类词：
+# 5类词：
 #定义关键字表:1
-KeywordList = ['if','int','then','do','print']
+KeywordList = ['if','int','then','do','print','return']
 #定义分界符表:2
 DelimiterList = [';']
 #定义运算符表(算术运算符和关系运算符):3
 OperatorList = ['=','-','+','*','/','>','<']
-#常数0,标识符4，
+#常量5,标识符4，无类别为0
 #单词栈
 Word = ''
 #输出流
@@ -16,28 +16,28 @@ OutStream = []
 def IfKeyword(Char):
     for w in KeywordList:
         for r in w:
-            if r == w[-1]:
-                Word = w
-                return True
-            else:
-                Word += Char
-                Char = SourceCodeFile.read(1)
+            if Char == r:
+                if r == w[-1]:
+                    global Word
+                    Word = w
+                    return True
+                else:
+                    Word += Char
+                    Char = SourceCodeFile.read(1)
     return False
 
 
 
-#取一个字符，判断属2/3否,判断0否,判断1否(根据表1构建最小DFA，入栈，),str和类型构成2元组，插入list，位置为循环计数
+#取一个字符，判断属2/3否,判断5否,判断1否(根据表1构建最小DFA，入栈，),str和类型构成2元组，插入list，位置为循环计数
 SourceCodeFile = open('./SourceCode','r')
 num = True
-sort = 1
-FileEnd = False
+sort = 0
 
-while FileEnd == False:
+while True:
     Char = SourceCodeFile.read(1)
     #文件结束
     if Char == '':
         SourceCodeFile.close()
-        FileEnd = True
         break
 
     #重写，每次字符都入Word栈,循环开始
@@ -47,7 +47,7 @@ while FileEnd == False:
     if Char == (' ' or '\n'):
         OutStream.append((Word,sort))
         Word = ''
-        break
+        continue
 
 
     Word += Char
@@ -55,11 +55,11 @@ while FileEnd == False:
     #种类检测，只设置sort，
     if Char in DelimiterList:
         sort = 2
-        break
+        continue
 
     if Char in OperatorList:
         sort = 3
-        break
+        continue
 
     #num==1:上一个char是数字
 
@@ -72,15 +72,15 @@ while FileEnd == False:
     if Char.isdigit() == True:
         if num == True:
             num = True
-            sort = 0
-        break
+            sort = 5
+        continue
 
     if IfKeyword(Char) == True:
         sort = 1
-        break
+        continue
     else:
         sort = 4
-        break
+        continue
 
 SourceCodeFile.close()
 
