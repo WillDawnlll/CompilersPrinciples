@@ -10,7 +10,7 @@ OperatorList = ['=', '-', '+', '*', '/', '>', '<']
 # 单词栈
 Word = ''
 # 输出流
-OutStream = []
+WordStream = []
 
 
 # 判断是否为关键字，再一个循环，判断完此单词，
@@ -45,7 +45,7 @@ while True:
     # 重写，检测到分隔符，根据sort（栈中种类）栈中元素加进OutStream,清栈,
     # 运算式子之间，加空格: a = 1 + 1
     if Char == (' ' or '\n'):
-        OutStream.append((Word, sort))
+        WordStream.append((Word, sort))
         Word = ''
         continue
 
@@ -85,6 +85,6 @@ SourceCodeFile.close()
 OutFile = open('./OutFile', 'w')
 # OutStream   list转换str  函数
 
-OutFile.write(str(OutStream))
+OutFile.write(str(WordStream))
 
 OutFile.close()
