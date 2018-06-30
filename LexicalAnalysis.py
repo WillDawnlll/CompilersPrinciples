@@ -130,7 +130,7 @@ def f():
 # return False
 
 
-source_code = open('./SourceCode', 'r')
+source_code = open('./source_code', 'r')
 sort = 0
 char = source_code.read(1)
 
@@ -163,6 +163,6 @@ while True:
 
 source_code.close()
 
-output_file = open('./OutFile', 'w')
+output_file = open('./output', 'w')
 output_file.write(str(word_stream))
 output_file.close()
