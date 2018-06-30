@@ -1,36 +1,36 @@
 # coding=utf-8
 # 5类词
 # 定义关键字表:1
-KeywordList = ['if', 'int', 'then', 'print', 'return']
+keyword = ['if', 'int', 'then', 'print', 'return']
 # 定义分界符表:2
-DelimiterList = [';']
+delimiter = [';']
 # 定义运算符表(算术运算符和关系运算符):3
-OperatorList = ['=', '-', '+', '*', '/', '>', '<']
+operator = ['=', '-', '+', '*', '/', '>', '<']
 # 常量5,标识符4，无类别为0
 # 省略符号表
-OmitList = [' ', '\n']
+omit_char = [' ', '\n']
 # 单词栈
-Word = ''
+word = ''
 # 输出流
-WordStream = []
+word_stream = []
 
 
 def next_char():
-    global Word, Char
-    Word += Char
-    Char = SourceCodeFile.read(1)
-    return Char
+    global word, char
+    word += char
+    char = source_code.read(1)
+    return char
 
 #dfa
-def keyword():
-    global Char, Word
-    if Char == 'i':
+def is_keyword():
+    global char, word
+    if char is 'i':
         return i()
-    elif Char == 't':
+    elif char is 't':
         return t()
-    elif Char == 'p':
+    elif char is 'p':
         return p()
-    elif Char == 'r':
+    elif char is 'r':
         return r()
     else:
         next_char()
@@ -38,84 +38,75 @@ def keyword():
 
 
 def i():
-    char = next_char()
-    if char == 'n':
+    if next_char() is 'n':
         return n()
-    elif char == 'f':
+    elif next_char() is 'f':
         return f()
-    elif char == ' ':
+    elif next_char() is ' ':
         return True
     else:
         return False
 
 
 def t():
-    char = next_char()
-    if char == 'h':
+    if next_char() is 'h':
         return h()
-    elif char == 'u':
+    elif next_char() is 'u':
         return u()
-    elif char == ' ':
+    elif next_char() is ' ':
         return True
     else:
         return False
 
 
 def p():
-    char = next_char()
-    if char == 'r':
+    if next_char() is 'r':
         return r()
     else:
         return False
 
 
 def r():
-    char = next_char()
-    if char == 'e':
+    if next_char() is 'e':
         return e()
-    elif char == 'i':
+    elif next_char() is 'i':
         return i()
     else:
         return False
 
 
 def n():
-    char = next_char()
-    if char == 't':
+    if next_char() is 't':
         return t()
-    elif char == ' ':
+    elif next_char() is ' ':
         return True
     else:
         return False
 
 
 def h():
-    char = next_char()
-    if char == 'e':
+    if next_char() is 'e':
         return e()
     else:
         return False
 
 
 def u():
-    char = next_char()
-    if char == 'r':
+    if next_char() is 'r':
         return r()
     else:
         return False
 
 
 def e():
-    char = next_char()
-    if char == 'n':
+    if next_char() is 'n':
         return n()
     else:
         return False
 
 
 def f():
-    char = next_char()
-    if char == ' ':
+    if next_char() is ' ':
         return True
     else:
         return False
@@ -127,7 +118,7 @@ def f():
 # id = ''
 # for w in KeywordList:
 #     for r in w:
-#         if char == r:
+#         if next_char() is r:
 #             if r == w[-1]:
 #                 global Word
 #                 Word = w
@@ -139,39 +130,39 @@ def f():
 # return False
 
 
-SourceCodeFile = open('./SourceCode', 'r')
+source_code = open('./SourceCode', 'r')
 sort = 0
-Char = SourceCodeFile.read(1)
+char = source_code.read(1)
 
 while True:
     # 文件结束
-    if Char == '':
-        SourceCodeFile.close()
+    if next_char() is '':
+        source_code.close()
         break
 
-    if Char in OmitList:
-        WordStream.append((Word, sort))
-        Word = ''
-        Char = SourceCodeFile.read(1)
+    if char in omit_char:
+        word_stream.append((word, sort))
+        word = ''
+        char = source_code.read(1)
         continue
 
     # 种类检测，设置sort
-    if Char in DelimiterList:
+    if char in delimiter:
         sort = 2
         next_char()
-    elif Char in OperatorList:
+    elif char in operator:
         sort = 3
         next_char()
-    elif Char.isdigit():
+    elif char.isdigit():
         sort = 5
         next_char()
-    elif keyword():
+    elif is_keyword():
         sort = 1
     else:
         sort = 4
 
-SourceCodeFile.close()
+source_code.close()
 
-OutFile = open('./OutFile', 'w')
-OutFile.write(str(WordStream))
-OutFile.close()
+output_file = open('./OutFile', 'w')
+output_file.write(str(word_stream))
+output_file.close()
