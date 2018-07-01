@@ -80,6 +80,7 @@ while True:
     S=noterminal([[1,4],A])
 
     tree = right(A,sentence)
+    
 
 
     #调用当前文法判断函数：(多文法用一个程序？文法存在list中,0为非终结符)
