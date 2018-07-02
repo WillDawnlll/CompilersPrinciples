@@ -38,75 +38,85 @@ def is_keyword():
 
 
 def i():
-    if next_char() is 'n':
+    next_char()
+
+    if char is 'n':
         return n()
-    elif next_char() is 'f':
+    elif char is 'f':
         return f()
-    elif next_char() is ' ':
+    elif char is ' ':
         return True
     else:
         return False
 
 
 def t():
-    if next_char() is 'h':
+    next_char()
+    if char is 'h':
         return h()
-    elif next_char() is 'u':
+    elif char is 'u':
         return u()
-    elif next_char() is ' ':
+    elif char is ' ':
         return True
     else:
         return False
 
 
 def p():
-    if next_char() is 'r':
+    next_char()
+    if char is 'r':
         return r()
     else:
         return False
 
 
 def r():
-    if next_char() is 'e':
+    next_char()
+    if char is 'e':
         return e()
-    elif next_char() is 'i':
+    elif char is 'i':
         return i()
     else:
         return False
 
 
 def n():
-    if next_char() is 't':
+    next_char()
+    if char is 't':
         return t()
-    elif next_char() is ' ':
+    elif char is ' ':
         return True
     else:
         return False
 
 
 def h():
-    if next_char() is 'e':
+    next_char()
+    if char is 'e':
         return e()
     else:
         return False
 
 
 def u():
-    if next_char() is 'r':
+    next_char()
+    if char is 'r':
         return r()
     else:
         return False
 
 
 def e():
-    if next_char() is 'n':
+    next_char()
+    if char is 'n':
         return n()
     else:
         return False
 
 
 def f():
-    if next_char() is ' ':
+    next_char()
+    if char is ' ':
         return True
     else:
         return False
@@ -133,10 +143,9 @@ def f():
 source_code = open('./source_code', 'r')
 sort = 0
 char = source_code.read(1)
-
 while True:
     # 文件结束
-    if next_char() is '':
+    if char is '':
         source_code.close()
         break
 
