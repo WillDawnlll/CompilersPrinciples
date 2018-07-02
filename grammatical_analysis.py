@@ -3,23 +3,25 @@
 from lexical_analysis import word_stream
 
 #语法树，文法，非终结符
-class tree(list):
-    def __init__(self,l):
-        self.list=l
-class grammar(list):
-    def __init__(self,l):
-        self.list=l
 class noterminal(list):
-    def __init__(self,l):
-        self.list=l
+    def __init__(self,l=[]):
+        list.__init__([])
+        self.extend(l)
 
 
 #检测文法和句子是否匹配
 #只考虑右递归
 def right(t_grammar, t_sentence):
+    print('ined right')
+    print(t_grammar)
+    print(len(t_grammar))
+    print(range(0,len(t_grammar)-1))
     for seq in range(0, len(t_grammar) - 1):
+        print('1')
+        print(type(t_grammar[seq]))
         #当前词序号对应的文法词为非终结符
         if t_grammar[seq] is noterminal:
+            print(t_grammar[seq].name)
             #，从此非终结符的文法表中查找
             for tt_grammar in t_grammar[seq]:
                 #某文法首词,同当前词序号对应的句子词相同
@@ -28,22 +30,29 @@ def right(t_grammar, t_sentence):
                     tt_sentence = t_sentence[seq:-1]
                     t_sentence.pop(seq,-1)
                     result = right(tt_grammer, tt_sentence)
+                    print('result:   ',result,'\n')
                     if result == False:
                         return False
                     else:
+
                         return t_sentence.append(result)
         else:
             if t_sentence[seq][1] == t_grammar[seq]:
                 if seq == len(t_grammar)-1:
+                    print('z:  ',t_sentence,'\n')
                     return t_sentence
             else:
                 return False
 
 
 #定义文法
-E=noterminal([grammar([4,3]),grammar([5])])
-A=noterminal([grammar([4,1,E]))
-S=noterminal([grammar([1,4]),grammar([A])])
+#E=noterminal([grammar([4,3]),grammar([5])])
+#A=noterminal([grammar([4,1,E])])
+#S=noterminal([grammar([1,4]),grammar([A])])
+E=noterminal([[4,3],[5]])
+A=noterminal([[4,1,E]])
+S=noterminal([[1,4],[A]])
+
 
 #每句
 current_word = 0
@@ -62,9 +71,14 @@ while True:
             current_word += 1
             sentence = word_stream[last_semicolon:current_word]
             break
-    print(sentence)
+    print('in right:\n')
+    print(list(S))
+
     tree = right(S,sentence)
+#    print('tree:\n',tree)
     last_semicolon = current_word
+
+#print('s-tree:\n',tree)
 
 
 # print(tree)
