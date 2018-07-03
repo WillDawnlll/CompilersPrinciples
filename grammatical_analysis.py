@@ -11,7 +11,7 @@ class noterminal(list):
 
 #检测文法和句子是否匹配
 #只考虑右递归
-def right(t_noterminal, t_sentence):
+def grammar(t_noterminal, t_sentence):
     # 对此非终结符中每个文法
     for production in eval(t_noterminal):
         #当前文法词序号seq
@@ -24,7 +24,7 @@ def right(t_noterminal, t_sentence):
                 #当前句删除剩余句子
                 t_sentence = t_sentence[:sequence]
                 #检查结果,保存返回深一层子句list
-                result = right(production[sequence], t)
+                result = grammar(production[sequence], t)
                 if result == False:
                     t_sentence.extend(t)
                     break
@@ -76,7 +76,7 @@ while True:
             current_word += 1
             break
         current_word += 1
-    tree = right('S',sentence)
+    tree = grammar('S', sentence)
     if tree is False:
         tree = '词句语法错误'
     grammar_forest.append(tree)
