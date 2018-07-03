@@ -26,6 +26,7 @@ def grammar(t_noterminal, t_sentence):
                 #检查结果,保存返回深一层子句list
                 result = grammar(production[sequence], t)
                 if result == False:
+                    #当前句恢复子句
                     t_sentence.extend(t)
                     break
                     # return False
@@ -36,7 +37,6 @@ def grammar(t_noterminal, t_sentence):
             #文法和句子当前词sort相符
             elif production[sequence] == t_sentence[sequence][1]:
                 #文法全部相符
-                l=len(t_noterminal)-1
                 if sequence == len(t_sentence)-1:
                     return t_sentence
             else:
