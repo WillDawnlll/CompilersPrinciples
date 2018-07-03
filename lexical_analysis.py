@@ -76,6 +76,8 @@ def r():
         return e()
     elif char is 'i':
         return i()
+    elif char is 'n':
+        return n()
     else:
         return False
 
@@ -110,6 +112,8 @@ def e():
     next_char()
     if char is 'n':
         return n()
+    if char is 't':
+        return t()
     else:
         return False
 
